@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>VEÍCULOS</h1>
+        <?php echo (isset($this->alert) ? $this->alert : ""); ?>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>VeÍculo</th>
+                    <th>Marca</th>
+                    <th>Ano</th>
+                    <th>Descrição</th>
+                    <th>Vendido</th>
+                    <th>Criado</th>
+                    <th>Alterado</th>
+                    <th>Alterar</th>
+                    <th>Deletar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($view_veiculos as $v): ?>
+                    <tr>
+                        <td><input type="text" class="form-control" name="veiculo" value="<?php echo $v['veiculo']; ?>"></td>
+                        <td><input type="text" class="form-control" name="marca" value="<?php echo $v['marca']; ?>"></td>
+                        <td><input type="text" class="form-control" name="ano" value="<?php echo $v['ano']; ?>"></td>
+                        <td><input type="text" class="form-control" name="descricao" value="<?php echo $v['descricao']; ?>"></td>
+                        <td>
+                            <?php 
+                                if ($v['vendido'] == 0) {
+                                    $resp = 'Não';
+                                }else{
+                                    $resp = 'Sim';
+                                } 
+                            ?>
+                            <input type="text" class="form-control" name="vendido" value="<?= $resp ?>"> 
+                        </td>
+                        <td>
+                            <?php 
+                                $data = new DateTime($v['created_at']['date']);
+                                $result = $data->format('d-m-Y');
+                            ?>
+                            <input type="text" class="form-control" disabled="disabled" value="<?= $result ?>">
+                        </td>
+                        <td>
+                            <?php 
+                                $data = new DateTime($v['updated_at']['date']); 
+                                $result = $data->format('d-m-Y');
+                            ?>
+                            <input type="text" class="form-control" disabled="disabled" name="atualizado" value="<?= $result ?>">  
+                        </td>
+                        <td><button type="button" class="btn btn-primary" onClick="update(<?php echo $v['id']; ?>, event)"><i class="fa fa-edit"></i></button></td>
+                        <td><button type="button" class="btn btn-danger" onClick="deleta(<?php echo $v['id']; ?>, event)"><i class="fa fa-trash"></i></button></td>
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <h2>CADASTRAR</h2>
+        <form action="<?php echo BASE; ?>veiculos/api" method="POST" id="formCadastro">
+            <div class="form-row">
+            <div class="form-group">
+                <input type="text" name="veiculo" placeholder="Veículo" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <select name="marca" class="form-control" required="required">
+                    <option disabled="disabled" selected>Marca</option>
+                    <option value="Volkswagen">Volkswagen</option>
+                    <option value="Fiat">Fiat</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Kia">Kia</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" name="ano" placeholder="Ano" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <textarea name="descricao" rows="3" placeholder="Descrição" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <select name="vendido" class="form-control" required="required">
+                    <option value="1">Vendido</option>
+                    <option value="0">Não Vendido</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">CADASTRAR</button>
+        </form>
+    </div>
+</div>

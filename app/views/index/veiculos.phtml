@@ -1,0 +1,46 @@
+<?php 
+	header("Access-Control-Allow-Origin: *");
+	header("Content-Type: application/json; charset=UTF-8");
+	header("Access-Control-Allow-Methods: POST");
+	header("Access-Control-Max-Age: 3600");
+	header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+	if (isset($view_veiculos)) {
+		if ($view_veiculos != 0) {
+			if ($view_veiculos != 1) {
+				$veiculos = array();
+				foreach ($view_veiculos as $v) {
+					$item=array(
+						'id' => $v->id,
+						'veiculo' => $v->veiculo,
+						'marca' => $v->marca,
+						'ano' => $v->ano,
+						'descricao' => $v->descricao,
+						'vendido' => $v->vendido,
+						'created_at' => $v->created_at,
+						'updated_at' => $v->updated_at
+					);
+					array_push($veiculos, $item);
+				}
+				http_response_code(200);
+			    echo json_encode($veiculos);
+			}else{
+			    $veiculos = array();
+				$item=array(
+					'id' => $view_veiculo->id,
+					'veiculo' => $view_veiculo->veiculo,
+					'marca' => $view_veiculo->marca,
+					'ano' => $view_veiculo->ano,
+					'descricao' => $view_veiculo->descricao,
+					'vendido' => $view_veiculo->vendido,
+					'created_at' => $view_veiculo->created_at,
+					'updated_at' => $view_veiculo->updated_at
+				);
+				array_push($veiculos, $item);
+				http_response_code(200);
+		    	echo json_encode($veiculos);
+			}
+				
+		}	
+	}else{
+		echo json_encode('Veiculo Criado.');
+	}
